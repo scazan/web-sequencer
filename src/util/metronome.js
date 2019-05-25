@@ -34,12 +34,13 @@ function nextNote() {
 }
 
 function scheduleNote( beatNumber, time ) {
+  let nextNote;
     // push the note on the queue, even if we're not playing.
     notesInQueue.push( { note: beatNumber, time: time } );
 
-    if ( (noteResolution==1) && (beatNumber%2))
+    if ( (noteResolution === 1) && (beatNumber%2))
         return; // we're not playing non-8th 16th notes
-    if ( (noteResolution==2) && (beatNumber%4))
+    if ( (noteResolution === 2) && (beatNumber%4))
         return; // we're not playing non-quarter 8th notes
 
     // create an oscillator
@@ -47,38 +48,36 @@ function scheduleNote( beatNumber, time ) {
     // osc.connect( audioContext.destination );
   if (beatNumber % 16 === 0) {    // beat 0 == high pitch
     // osc.frequency.value = 880.0;
+    nextNote = 'Eb3';
   }
   else if (beatNumber % 4 === 0 ) {    // quarter notes = medium pitch
     // osc.frequency.value = 440.0;
-    output.playNote('C3');
+    nextNote = 'C3';
   }
   else  {                       // other 16th notes = low pitch
+    nextNote = null;
     // osc.frequency.value = 220.0;
   }
 
+  if(output && nextNote) {
+    output.stopNote('C3');
+    output.stopNote('Eb3');
+    output.playNote(nextNote, 1, {duration: 400, velocity: Math.random()});
     // osc.start( time );
     // osc.stop( time + noteLength );
+  }
 }
 
 function scheduler() {
     // while there are notes that will need to play before the next interval, 
     // schedule them and advance the pointer.
-    while (nextNoteTime < audioContext.currentTime + scheduleAheadTime ) {
-        scheduleNote( current16thNote, nextNoteTime );
-        nextNote();
-    }
+  while (nextNoteTime < audioContext.currentTime + scheduleAheadTime ) {
+    scheduleNote( current16thNote, nextNoteTime );
+    nextNote();
+  }
 }
 
 const play = () => {
-    if (!unlocked) {
-      // play silent buffer to unlock the audio
-      var buffer = audioContext.createBuffer(1, 1, 22050);
-      var node = audioContext.createBufferSource();
-      node.buffer = buffer;
-      node.start(0);
-      unlocked = true;
-    }
-
     isPlaying = !isPlaying;
 
     if (isPlaying) { // start playing
@@ -91,6 +90,12 @@ const play = () => {
         return "play";
     }
 }
+
+const setOutput = (outputId) => {
+  if(outputId) {
+    output = WebMidi.getOutputById(outputId);
+  }
+};
 
 let output;
 const init = (context, readyCallback) => {
@@ -111,14 +116,14 @@ const init = (context, readyCallback) => {
 
   WebMidi.enable(function (err) {
     console.log("READY");
-    output = WebMidi.getOutputByName("VirMIDI 0-0");
 
-    console.log(output);
     readyCallback();
   });
 
   return {
     play,
+    setOutput,
+    midi: WebMidi,
   };
 };
 
