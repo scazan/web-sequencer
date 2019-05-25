@@ -54,7 +54,7 @@ class App extends React.Component {
         </select>
 
         {this.state.isLoaded ? (
-          <button className="play" onClick={this.startMetro}>
+          <button className={`play ${this.state.isPlaying ? 'active' : null}`} onClick={this.startMetro}>
             {this.state.isPlaying ? 'Stop' : 'Start Metro'}
           </button>
         ) : 'loading'}

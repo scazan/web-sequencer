@@ -2,9 +2,7 @@ import MetronomeWorker from './metronome.worker';
 import WebMidi from 'webmidi';
 
 let audioContext;
-let unlocked = false;
 let isPlaying = false;      // Are we currently playing?
-let startTime;              // The start time of the entire sequence.
 let current16thNote;        // What note is currently last scheduled?
 let tempo = 120.0;          // tempo (in beats per minute)
 let lookahead = 25.0;       // How frequently to call scheduling function 
@@ -14,8 +12,6 @@ let scheduleAheadTime = 0.1;    // How far ahead to schedule audio (sec)
                             // with next interval (in case the timer is late)
 let nextNoteTime = 0.0;     // when the next note is due.
 let noteResolution = 0;     // 0 == 16th, 1 == 8th, 2 == quarter note
-let noteLength = 0.05;      // length of "beep" (in seconds)
-let last16thNoteDrawn = -1; // the last "box" we drew on the screen
 const notesInQueue = [];      // the notes that have been put into the web audio,
                             // and may or may not have played yet. {note, time}
 let timerWorker;     // The Web Worker used to fire timer messages
