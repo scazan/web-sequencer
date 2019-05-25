@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css?family=Maven+Pro&display=swap');
+
+body {
+  height: -webkit-fill-available;
+  background: rgb(82,135,255);
+  background: linear-gradient(351deg, rgba(82,135,255,1) 14%, rgba(93,255,142,1) 100%);
+  background-size: 200%;
+
+  button.play {
+    display: block;
+    width: 25%;
+    margin-top: 100px;
+    padding: 50px;
+    margin: 0 auto;
+
+    background: transparent;
+
+    border: 2px dotted #fff;
+
+    color: #fff;
+    font-family: 'Maven Pro', serif;
+    font-size: 64px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .App {
+    padding-top: 200px;
+  }
+}
