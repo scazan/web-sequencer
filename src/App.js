@@ -3,9 +3,10 @@ import './App.scss';
 import Metronome from './util/metronome';
 
 const startMetro = () => {
-  const metro = Metronome(new AudioContext());
+  const metro = Metronome(new AudioContext(), () => {
+    metro.play();
+  });
 
-  metro.play();
 };
 
 class App extends React.Component {

@@ -1,4 +1,5 @@
 import MetronomeWorker from './metronome.worker';
+import WebMidi from 'webmidi';
 
 let audioContext;
 let unlocked = false;
@@ -44,12 +45,16 @@ function scheduleNote( beatNumber, time ) {
     // create an oscillator
     // var osc = audioContext.createOscillator();
     // osc.connect( audioContext.destination );
-    // if (beatNumber % 16 === 0)    // beat 0 == high pitch
-        // osc.frequency.value = 880.0;
-    // else if (beatNumber % 4 === 0 )    // quarter notes = medium pitch
-        // osc.frequency.value = 440.0;
-    // else                        // other 16th notes = low pitch
-        // osc.frequency.value = 220.0;
+  if (beatNumber % 16 === 0) {    // beat 0 == high pitch
+    // osc.frequency.value = 880.0;
+  }
+  else if (beatNumber % 4 === 0 ) {    // quarter notes = medium pitch
+    // osc.frequency.value = 440.0;
+    output.playNote('C3');
+  }
+  else  {                       // other 16th notes = low pitch
+    // osc.frequency.value = 220.0;
+  }
 
     // osc.start( time );
     // osc.stop( time + noteLength );
@@ -87,14 +92,15 @@ const play = () => {
     }
 }
 
-const init = (context) => {
+let output;
+const init = (context, readyCallback) => {
   audioContext = context;
 
   timerWorker = new MetronomeWorker();
 
   timerWorker.addEventListener('message', function(e) {
     if (e.data == "tick") {
-      console.log("tick!");
+      // console.log("tick!");
       scheduler();
     }
     else
@@ -102,6 +108,14 @@ const init = (context) => {
   });
 
   timerWorker.postMessage({"interval": lookahead});
+
+  WebMidi.enable(function (err) {
+    console.log("READY");
+    output = WebMidi.getOutputByName("VirMIDI 0-0");
+
+    console.log(output);
+    readyCallback();
+  });
 
   return {
     play,
