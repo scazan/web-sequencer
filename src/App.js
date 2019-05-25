@@ -1,9 +1,18 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Metronome from './util/metronome';
 
-function App() {
-  return (
+class App extends React.Component {
+  constructor() {
+    super();
+    const metro = Metronome(new AudioContext());
+
+    metro.play();
+  }
+
+  render() {
+    return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -21,6 +30,7 @@ function App() {
       </header>
     </div>
   );
+  }
 }
 
 export default App;
