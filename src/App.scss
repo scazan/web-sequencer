@@ -44,6 +44,15 @@ body {
   .App {
     padding-top: 100px;
 
+    .boom {
+      background: rgba(221, 0, 255, 0.44);
+      background: #ff00a6;
+      background: #00bb62;
+    }
+    .boom.strong {
+      background: #00ffa6;
+    }
+
     select {
       display: block;
       width: 240px;
