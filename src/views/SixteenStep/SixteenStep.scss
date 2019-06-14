@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css?family=Maven+Pro&display=swap');
+
+body {
+  height: -webkit-fill-available;
+  background: rgb(82,135,255);
+  background: linear-gradient(351deg, rgba(82,135,255,1) 14%, rgba(93,255,142,1) 100%);
+  background-size: 200%;
+
+  .sixteenStep {
+    padding-top: 100px;
+
+    .sequence {
+      position: relative;
+      width: calc(45px * 4);
+      padding: 40px;
+      margin: 0 auto;
+      border-radius: 2px;
+      background: #333;
+
+      button {
+        width: 25px;
+        height: 25px;
+        margin: 10px;
+        border: 0;
+
+        background: #ff00a6;
+
+        user-select: none;
+        &.active {
+          background: #00ffa6;
+        }
+      }
+
+      .playSequence {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        margin: 10px;
+
+        border-radius: 500px;
+        background: #ff00a6;
+
+      }
+    }
+  }
+}

@@ -14,12 +14,6 @@ const startMetro = function() {
   this.setState({isPlaying: !this.state.isPlaying});
 };
 
-const setOutput = function(e) {
-  const outputId = e.target.value;
-  console.log(outputId);
-  metro.setOutput(outputId);
-};
-
 const context = new AudioContext();
 const getSynth = (freq, waveformType) => {
 
