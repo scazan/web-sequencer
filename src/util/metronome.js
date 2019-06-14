@@ -12,7 +12,7 @@ let scheduleAheadTime = 0.1;    // How far ahead to schedule audio (sec)
                             // with next interval (in case the timer is late)
 let nextNoteTime = 0.0;     // when the next note is due.
 let noteResolution = 0;     // 0 == 16th, 1 == 8th, 2 == quarter note
-const notesInQueue = [];      // the notes that have been put into the web audio,
+// const notesInQueue = [];      // the notes that have been put into the web audio,
                             // and may or may not have played yet. {note, time}
 let timerWorker;     // The Web Worker used to fire timer messages
 
@@ -32,7 +32,7 @@ function nextNote() {
 function scheduleNote( beatNumber, time ) {
   let nextNote;
     // push the note on the queue, even if we're not playing.
-    notesInQueue.push( { note: beatNumber, time: time } );
+    // notesInQueue.push( { note: beatNumber, time: time } );
 
     if ( (noteResolution === 1) && (beatNumber%2))
         return; // we're not playing non-8th 16th notes

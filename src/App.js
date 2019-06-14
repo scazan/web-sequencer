@@ -55,7 +55,7 @@ class App extends React.Component {
 
         {this.state.isLoaded ? (
           <button className={`play ${this.state.isPlaying ? 'active' : null}`} onClick={this.startMetro}>
-            {this.state.isPlaying ? 'Stop' : 'Start Metro'}
+            {this.state.isPlaying ? 'Playing―' : 'Start'}
           </button>
         ) : 'loading'}
       </div>
@@ -64,3 +64,9 @@ class App extends React.Component {
 };
 
 export default App;
+ /*
+  * Every frame should increment a counter, if we are recording, we set a recording boolean.
+  * Whenever an event occurs, it adds either itself (the event itself) into a Map (or POJO)
+  * or adds a reference of some sort (like a key to lookup in an "events map").
+  * */
+
