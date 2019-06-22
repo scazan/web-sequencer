@@ -111,12 +111,12 @@ const enableStep = stepIndex => {
   }
 };
 
-const emptyArray = new Array(16).fill(0);
+const emptyStepArray = new Array(16).fill(0);
 
-const enableSteps = emptyArray.map((empty, i) => () => enableStep(i));
+const enableSteps = emptyStepArray.map((empty, i) => () => enableStep(i));
 
 const getSequenceUI = () => {
-  return emptyArray.map((empty, i) => {
+  return emptyStepArray.map((empty, i) => {
     return <button
       key={`seqButton${i}`}
       onClick={enableSteps[i]}
