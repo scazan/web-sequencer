@@ -24,9 +24,15 @@ const stop = () => {
 
 const playScheduledEvents = (tickCount, sequence, actions) => {
   const currentBeat = (tickCount/(32*4)) * 4;
-  const eventsToPlay = sequence[currentBeat+1];
+  const eventsToPlay = sequence[currentBeat];
   if(eventsToPlay && eventsToPlay.length) {
+    console.log('- ', currentBeat);
     eventsToPlay.forEach(event => actions[event.instrument](event.params));
+  }
+  else {
+    if(currentBeat === 0) {
+      console.log('X ', currentBeat, sequence);
+    }
   }
 };
 
@@ -46,18 +52,20 @@ const createSequencer = (options, readyCallback) => {
   } = options;
   timerWorker = new MetronomeWorker();
   setTempo(tempo);
-  sequenceLength = (sequence.EOF-1) * 32; // Subtracting 1 to make it along musical lines
+  sequenceLength = (sequence.EOF) * 32;
 
   timerWorker.addEventListener('message', function(e) {
     if (e.data === "tick") {
       if(loop) {
-        playScheduledEvents(currentTickCount++ % sequenceLength, sequence, events); // Subtracting 1 to make it along musical lines
+        playScheduledEvents(currentTickCount % sequenceLength, sequence, events);
+        currentTickCount++;
       }
       else {
-        playScheduledEvents(currentTickCount++, sequence, events); // Subtracting 1 to make it along musical lines
+        playScheduledEvents(currentTickCount, sequence, events);
         if(sequenceLength <= currentTickCount) {
           stop();
         }
+        currentTickCount++;
       }
     }
     else {
