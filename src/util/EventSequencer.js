@@ -52,7 +52,7 @@ const createSequencer = (options, readyCallback) => {
   } = options;
   timerWorker = new MetronomeWorker();
   setTempo(tempo);
-  sequenceLength = (sequence.EOF) * 32;
+  sequenceLength = (sequence.EOF) * 32; // Why am I multiplying here?
 
   timerWorker.addEventListener('message', function(e) {
     if (e.data === "tick") {

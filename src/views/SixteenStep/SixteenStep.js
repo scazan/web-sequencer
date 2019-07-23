@@ -4,6 +4,7 @@ import EventSequencer from '../../util/EventSequencer';
   // This will need to start looking like actual MIDI data eventually
 const emptyStepArray = new Array(16).fill(0);
 
+// Sequenced events need to be grouped by channel instead of flat like this (it can be flattened in/before the event sequencer)
 const sequencedEvents = {
   '2': [
     {
@@ -52,16 +53,30 @@ const sequencedEvents = {
   'EOF': 16, // EOF is special to indicate the end of the sequence. This is the beat it restarts on.
 };
 
+// Why am I not just doing this all with Streams and arrays?
+const sequencedEventsByChannel = {
+  '0': [
+    false, {
+      instrument: 'snare',
+      params: {
+        vol: 0.1,
+        attack: 0.001,
+        sustain: 0.01,
+        release: 0.04,
+      },
+    }, false, false,
+    false, false, false, false,
+    false, false, false, false,
+    false, false, false, false,
+  ],
+};
+
 const instruments = {
   bd: (params) => {
     bd.play(0.5, params);
-
-    // console.log('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
   },
   snare: (params) => {
     snare.play(0.3, params);
-
-    // console.log('++++++++++++++++++++++++++++');
   },
 };
 let bd;
@@ -119,7 +134,7 @@ class OP extends React.Component {
     this.state = {
       isLoaded: false,
       isPlaying: false,
-      currentSoundChannel: 0,
+      currentSoundChannel: 1,
     }
 
     this.wheelRef = React.createRef();
@@ -156,7 +171,6 @@ class OP extends React.Component {
   }
 
   enableStep(stepIndex) {
-    console.log(stepIndex);
     const event = {
       instrument: instrumentChannelMap[this.state.currentSoundChannel].name,
       params: {
