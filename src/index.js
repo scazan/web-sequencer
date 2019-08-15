@@ -4,11 +4,13 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import SixteenStep from './views/SixteenStep/SixteenStep';
+import Sequencer from './views/Sequencer/Sequencer';
 import * as serviceWorker from './serviceWorker';
 
 const routing = (
   <Router>
     <Switch>
+      <Route path="/sequencer" component={ Sequencer } />
       <Route path="/step" component={ SixteenStep } />
       <Route path="/" component={ App } />
     </Switch>
